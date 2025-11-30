@@ -26,12 +26,12 @@ export interface Order {
 }
 
 export interface Metric {
-  endpoint: string;
-  method: string;
-  responseTimeMs: number;
-  statusCode: number;
+  endpoint?: string;
+  method?: string;
+  responseTimeMs?: number;
+  statusCode?: number;
   timestampISO: string;
-  dayBucket: string;
+  dayBucket?: string;
 }
 
 export type MetricsData = Record<string, Metric>;

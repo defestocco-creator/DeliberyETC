@@ -10,7 +10,7 @@ interface MetricsDashboardProps {
 }
 
 const COLORS_PIE = ['#6366f1', '#818cf8', '#a5b4fc', '#c7d2fe', '#e0e7ff'];
-const COLORS_STATUS: Record<string, string> = { '2xx': '#22c55e', '4xx': '#f97316', '5xx': '#ef4444' };
+const COLORS_STATUS: Record<string, string> = { '2xx': '#22c55e', '4xx': '#f97316', '5xx': '#ef4444', 'N/A': '#9ca3af' };
 
 type SortKey = keyof Metric | '';
 type SortDirection = 'asc' | 'desc';
@@ -47,7 +47,8 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameT
     return null;
 };
 
-const getStatusColor = (status: number) => {
+const getStatusColor = (status?: number) => {
+    if (!status) return 'text-gray-400 bg-gray-400/10';
     if (status >= 500) return 'text-red-500 bg-red-500/10';
     if (status >= 400) return 'text-orange-400 bg-orange-400/10';
     if (status >= 200) return 'text-green-400 bg-green-400/10';
@@ -77,8 +78,12 @@ const MetricsDashboard: React.FC<MetricsDashboardProps> = ({ metrics }) => {
 
     // K-V stats
     const totalRequests = metricsArray.length;
-    const avgResponseTime = metricsArray.reduce((acc, m) => acc + m.responseTimeMs, 0) / totalRequests;
-    const errorCount = metricsArray.filter(m => m.statusCode >= 400).length;
+    const metricsWithTime = metricsArray.filter(m => typeof m.responseTimeMs === 'number');
+    const avgResponseTime = metricsWithTime.length > 0 
+      ? metricsWithTime.reduce((acc, m) => acc + m.responseTimeMs!, 0) / metricsWithTime.length
+      : 0;
+    
+    const errorCount = metricsArray.filter(m => m.statusCode && m.statusCode >= 400).length;
     const errorRate = (totalRequests > 0) ? (errorCount / totalRequests) * 100 : 0;
 
     // Chart data processing
@@ -91,9 +96,9 @@ const MetricsDashboard: React.FC<MetricsDashboardProps> = ({ metrics }) => {
     }, {} as Record<string, number>);
     const statusData = Object.entries(statusCounts).map(([name, value]) => ({ name, value }));
     
-    const responseTimesByEndpoint = metricsArray.reduce((acc, { endpoint = "N/A", responseTimeMs }) => {
+    const responseTimesByEndpoint = metricsWithTime.reduce((acc, { endpoint = "N/A", responseTimeMs }) => {
         if (!acc[endpoint]) acc[endpoint] = { total: 0, count: 0 };
-        acc[endpoint].total += responseTimeMs;
+        acc[endpoint].total += responseTimeMs!;
         acc[endpoint].count++;
         return acc;
     }, {} as Record<string, { total: number, count: number }>);
@@ -118,9 +123,12 @@ const MetricsDashboard: React.FC<MetricsDashboardProps> = ({ metrics }) => {
     if (!processedData?.requestsList) return [];
     return [...processedData.requestsList].sort((a, b) => {
         if (!sortKey) return 0;
-        const aValue = a[sortKey];
-        const bValue = b[sortKey];
-        if (aValue === undefined || bValue === undefined) return 0;
+        const aValue = a[sortKey as keyof Metric];
+        const bValue = b[sortKey as keyof Metric];
+        
+        if (aValue === bValue) return 0;
+        if (aValue === undefined) return 1;
+        if (bValue === undefined) return -1;
 
         if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
         if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
@@ -220,14 +228,16 @@ const MetricsDashboard: React.FC<MetricsDashboardProps> = ({ metrics }) => {
                     {sortedRequests.map((req, index) => (
                         <tr key={index} className="hover:bg-gray-700/50">
                             <td className="p-3 text-sm text-gray-300 whitespace-nowrap">{new Date(req.timestampISO).toLocaleString()}</td>
-                            <td className="p-3 text-sm text-gray-300 whitespace-nowrap font-mono">{req.method}</td>
-                            <td className="p-3 text-sm text-gray-300 whitespace-nowrap font-mono">{req.endpoint}</td>
+                            <td className="p-3 text-sm text-gray-300 whitespace-nowrap font-mono">{req.method || 'N/A'}</td>
+                            <td className="p-3 text-sm text-gray-300 whitespace-nowrap font-mono">{req.endpoint || 'N/A'}</td>
                             <td className="p-3 text-sm whitespace-nowrap">
                                 <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(req.statusCode)}`}>
-                                    {req.statusCode}
+                                    {req.statusCode || 'N/A'}
                                 </span>
                             </td>
-                            <td className="p-3 text-sm text-gray-300 whitespace-nowrap">{req.responseTimeMs.toFixed(2)} ms</td>
+                            <td className="p-3 text-sm text-gray-300 whitespace-nowrap">
+                                {typeof req.responseTimeMs === 'number' ? `${req.responseTimeMs.toFixed(2)} ms` : 'N/A'}
+                            </td>
                         </tr>
                     ))}
                 </tbody>

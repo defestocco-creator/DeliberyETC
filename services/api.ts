@@ -1,5 +1,4 @@
-
-import { Order } from '../types';
+import { AuthData, Order } from '../types';
 
 const API_BASE_URL = 'https://apidelibery.onrender.com';
 
@@ -12,8 +11,9 @@ async function fetchApi<T,>(path: string, options: RequestInit): Promise<T> {
   return data;
 }
 
-export const login = (email: string, password: string) => {
-  return fetchApi('/login', {
+// FIX: Explicitly type the return value of the login function as Promise<AuthData>. This ensures that the data consumed in `Login.tsx` is correctly typed, resolving the assignment error.
+export const login = (email: string, password: string): Promise<AuthData> => {
+  return fetchApi<AuthData>('/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),

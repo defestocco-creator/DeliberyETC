@@ -171,7 +171,7 @@ const MetricsDashboard: React.FC<MetricsDashboardProps> = ({ metrics }) => {
             <ResponsiveContainer>
               <PieChart>
                 <Pie data={endpointData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} labelLine={false} label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
-                  {endpointData.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS_PIE[index % COLORS_PIE.length]} />)}
+                  {endpointData.map((_, index) => <Cell key={`cell-${index}`} fill={COLORS_PIE[index % COLORS_PIE.length]} />)}
                 </Pie>
                 <Tooltip content={<CustomTooltip />} />
               </PieChart>

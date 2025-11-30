@@ -1,4 +1,4 @@
-import { AuthData, Order } from '../types';
+import { AuthData, Order, MetricsData } from '../types';
 
 const API_BASE_URL = 'https://apidelibery.onrender.com';
 
@@ -37,8 +37,9 @@ export const getOrders = (token: string) => {
   });
 };
 
-export const getMetrics = (token: string) => {
-  return fetchApi('/metricas', {
+// FIX: Explicitly type the return value of getMetrics to ensure type safety in components consuming this function, resolving the assignment error in GetMetrics.tsx.
+export const getMetrics = (token: string): Promise<MetricsData> => {
+  return fetchApi<MetricsData>('/metricas', {
     headers: { 'Authorization': `Bearer ${token}` },
   });
 };

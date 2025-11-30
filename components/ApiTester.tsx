@@ -15,10 +15,10 @@ const ApiTester: React.FC<ApiTesterProps> = ({ token }) => {
   const [activeTab, setActiveTab] = useState<Tab>('create-order');
 
   const tabs: { id: Tab; label: string }[] = [
-    { id: 'create-order', label: 'Create Order' },
-    { id: 'get-orders', label: 'Get Orders' },
-    { id: 'get-metrics', label: 'Get Metrics' },
-    { id: 'debug-credentials', label: 'Debug Credentials' },
+    { id: 'create-order', label: 'Criar Pedido' },
+    { id: 'get-orders', label: 'Buscar Pedidos' },
+    { id: 'get-metrics', label: 'Ver Métricas' },
+    { id: 'debug-credentials', label: 'Debugar Credenciais' },
   ];
 
   const renderContent = () => {

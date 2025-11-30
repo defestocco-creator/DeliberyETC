@@ -42,13 +42,13 @@ const ResponseDisplay: React.FC<ResponseDisplayProps> = ({ title, data, error, i
       <h3 className="text-lg font-semibold mb-2">{title}</h3>
       <div className={`bg-gray-800 rounded-lg border ${ (data || error) ? borderColor : 'border-gray-700' } relative`}>
         {isLoading && (
-            <div className="p-4 text-center text-gray-400">Loading...</div>
+            <div className="p-4 text-center text-gray-400">Carregando...</div>
         )}
 
         {contentToDisplay && (
           <>
             <div className={`px-4 py-2 border-b ${borderColor} flex justify-between items-center`}>
-                <span className={`text-sm font-mono ${textColor}`}>{error ? 'Error' : 'Success'}</span>
+                <span className={`text-sm font-mono ${textColor}`}>{error ? 'Erro' : 'Sucesso'}</span>
                 <button onClick={handleCopy} className="text-gray-400 hover:text-white transition-colors">
                   {copied ? <CheckIcon className="w-5 h-5 text-green-400" /> : <CopyIcon className="w-5 h-5" />}
                 </button>
@@ -60,7 +60,7 @@ const ResponseDisplay: React.FC<ResponseDisplayProps> = ({ title, data, error, i
         )}
         
         {!isLoading && !contentToDisplay && (
-             <div className="p-4 text-center text-gray-500">No response yet. Send a request to see the result.</div>
+             <div className="p-4 text-center text-gray-500">Nenhuma resposta ainda. Envie uma requisição para ver o resultado.</div>
         )}
       </div>
     </div>

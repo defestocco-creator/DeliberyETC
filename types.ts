@@ -24,3 +24,14 @@ export interface Order {
   pagamento: string;
   taxa?: number;
 }
+
+export interface Metric {
+  endpoint: string;
+  method: string;
+  responseTimeMs: number;
+  statusCode: number;
+  timestampISO: string;
+  dayBucket: string;
+}
+
+export type MetricsData = Record<string, Metric>;

@@ -31,16 +31,16 @@ const GetOrders: React.FC<GetOrdersProps> = ({ token }) => {
   return (
     <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
       <h2 className="text-xl font-bold mb-4">GET /pedidos</h2>
-      <p className="text-gray-400 mb-6">Fetch all orders for the current day associated with your account.</p>
+      <p className="text-gray-400 mb-6">Busque todos os pedidos do dia associados à sua conta.</p>
       <button
         onClick={handleFetch}
         disabled={isLoading}
         className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-md text-white font-semibold transition-colors disabled:bg-indigo-400 disabled:cursor-not-allowed"
       >
-        {isLoading ? 'Fetching...' : 'Fetch Orders'}
+        {isLoading ? 'Buscando...' : 'Buscar Pedidos'}
       </button>
 
-      <ResponseDisplay title="API Response" data={response} error={error} isLoading={isLoading} />
+      <ResponseDisplay title="Resposta da API" data={response} error={error} isLoading={isLoading} />
     </div>
   );
 };

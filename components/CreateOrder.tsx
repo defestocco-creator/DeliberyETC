@@ -48,7 +48,7 @@ const CreateOrder: React.FC<CreateOrderProps> = ({ token }) => {
       setResponse(data);
     } catch (err: any) {
         if (err instanceof SyntaxError) {
-             setError({ erro: "Invalid JSON format." });
+             setError({ erro: "Formato JSON inválido." });
         } else {
              setError(err as ApiError);
         }
@@ -60,11 +60,11 @@ const CreateOrder: React.FC<CreateOrderProps> = ({ token }) => {
   return (
     <div className="bg-gray-800 p-6 rounded-lg border border-gray-700">
       <h2 className="text-xl font-bold mb-4">POST /pedido</h2>
-      <p className="text-gray-400 mb-6">Create a new order. The payload must be a valid JSON.</p>
+      <p className="text-gray-400 mb-6">Crie um novo pedido. A carga deve ser um JSON válido.</p>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="orderPayload" className="block text-sm font-medium text-gray-400 mb-1">
-            Order JSON Payload
+            Carga JSON do Pedido
           </label>
           <textarea
             id="orderPayload"
@@ -79,11 +79,11 @@ const CreateOrder: React.FC<CreateOrderProps> = ({ token }) => {
           disabled={isLoading}
           className="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-md text-white font-semibold transition-colors disabled:bg-indigo-400 disabled:cursor-not-allowed"
         >
-          {isLoading ? 'Sending...' : 'Send Request'}
+          {isLoading ? 'Enviando...' : 'Enviar Requisição'}
         </button>
       </form>
 
-      <ResponseDisplay title="API Response" data={response} error={error} isLoading={isLoading} />
+      <ResponseDisplay title="Resposta da API" data={response} error={error} isLoading={isLoading} />
     </div>
   );
 };

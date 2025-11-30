@@ -22,7 +22,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       onLogin(data);
     } catch (err) {
       const apiError = err as ApiError;
-      setError(apiError.erro || 'An unknown error occurred.');
+      setError(apiError.erro || 'Ocorreu um erro desconhecido.');
     } finally {
       setIsLoading(false);
     }
@@ -31,10 +31,10 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
   return (
     <div className="max-w-md mx-auto mt-10">
       <div className="bg-gray-800 rounded-lg shadow-xl p-8 border border-gray-700">
-        <h2 className="text-2xl font-bold text-center mb-6">Login to API Tester</h2>
+        <h2 className="text-2xl font-bold text-center mb-6">Login no Testador de API</h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-400">Email</label>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-400">E-mail</label>
             <input
               id="email"
               type="email"
@@ -45,7 +45,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-400">Password</label>
+            <label htmlFor="password" className="block text-sm font-medium text-gray-400">Senha</label>
             <input
               id="password"
               type="password"
@@ -62,7 +62,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
               disabled={isLoading}
               className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-indigo-500 disabled:bg-indigo-400 disabled:cursor-not-allowed"
             >
-              {isLoading ? 'Logging in...' : 'Login'}
+              {isLoading ? 'Entrando...' : 'Entrar'}
             </button>
           </div>
         </form>

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { getMetrics } from '../services/api';
 import { ApiError, MetricsData } from '../types';
@@ -45,7 +44,7 @@ const GetMetrics: React.FC<GetMetricsProps> = ({ token }) => {
         <MetricsDashboard metrics={response} />
       )}
 
-      <ResponseDisplay title="Resposta da API (JSON Bruto)" data={response} error={error} isLoading={isLoading} />
+      <ResponseDisplay title="Dados Brutos (JSON)" data={response} error={error} isLoading={isLoading} />
     </div>
   );
 };

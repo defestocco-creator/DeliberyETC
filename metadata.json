@@ -1,5 +1,5 @@
 {
-  "name": "API Delibery Test Environment",
-  "description": "A comprehensive test environment to interact with all endpoints of the API Delibery service, including authentication, order management, and metrics viewing.",
+  "name": "Ambiente de Teste da API Delibery",
+  "description": "Um ambiente de teste completo para interagir com todos os endpoints do serviço API Delibery, incluindo autenticação, gerenciamento de pedidos e visualização de métricas.",
   "requestFramePermissions": []
 }
